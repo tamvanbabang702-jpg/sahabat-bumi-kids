@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { KidButton } from './ui/kid-button';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
+import { useEffect } from 'react';
 
 interface ResultAnimationProps {
   isPositive: boolean;
@@ -10,6 +12,19 @@ interface ResultAnimationProps {
 }
 
 export function ResultAnimation({ isPositive, message, isVisible, onContinue }: ResultAnimationProps) {
+  const { playSuccess, playError, playStarReward } = useSoundEffects();
+
+  useEffect(() => {
+    if (isVisible) {
+      if (isPositive) {
+        playSuccess();
+        // Play star reward sound after a delay
+        setTimeout(() => playStarReward(), 500);
+      } else {
+        playError();
+      }
+    }
+  }, [isVisible, isPositive, playSuccess, playError, playStarReward]);
   return (
     <AnimatePresence>
       {isVisible && (

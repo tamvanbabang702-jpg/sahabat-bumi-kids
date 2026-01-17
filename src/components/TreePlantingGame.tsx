@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import { KidButton } from './ui/kid-button';
 import { ArrowLeft } from 'lucide-react';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 interface TreePlantingGameProps {
   onComplete: () => void;
@@ -31,6 +32,7 @@ export function TreePlantingGame({ onComplete, onBack }: TreePlantingGameProps) 
   const [trees, setTrees] = useState<PlantedTree[]>([]);
   const [showComplete, setShowComplete] = useState(false);
   const { plantTree, addStars, addExperience, playerName } = useGameStore();
+  const { playCollect, playGameComplete, playStarReward } = useSoundEffects();
 
   const targetTrees = plantingSpots.length;
 
@@ -48,18 +50,23 @@ export function TreePlantingGame({ onComplete, onBack }: TreePlantingGameProps) 
     plantTree('forest');
     addStars(1);
     addExperience(10);
+    playCollect(); // Play collect sound
     
     const nextSpot = currentSpot + 1;
     setCurrentSpot(nextSpot);
 
     if (nextSpot >= targetTrees) {
-      setTimeout(() => setShowComplete(true), 800);
+      setTimeout(() => {
+        setShowComplete(true);
+        playGameComplete(); // Play game complete sound
+      }, 800);
     }
-  }, [currentSpot, plantTree, addStars, addExperience, targetTrees]);
+  }, [currentSpot, plantTree, addStars, addExperience, targetTrees, playCollect, playGameComplete]);
 
   const handleComplete = () => {
     addStars(5);
     addExperience(50);
+    playStarReward(); // Play star reward sound
     onComplete();
   };
 

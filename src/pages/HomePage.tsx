@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '@/stores/gameStore';
@@ -6,6 +6,7 @@ import { KidButton } from '@/components/ui/kid-button';
 import { StarCounter } from '@/components/StarCounter';
 import { CharacterDialogue } from '@/components/CharacterDialogue';
 import { Volume2, VolumeX, Settings } from 'lucide-react';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 import bimoBear from '@/assets/characters/bimo-bear.png';
 import lilaFish from '@/assets/characters/lila-fish.png';
@@ -17,12 +18,25 @@ export function HomePage() {
   const [showNameInput, setShowNameInput] = useState(!playerName);
   const [nameValue, setNameValue] = useState('');
   const [showWelcome, setShowWelcome] = useState(false);
+  const { startBackgroundMusic, stopBackgroundMusic, playSuccess } = useSoundEffects();
+
+  // Start background music when component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      startBackgroundMusic();
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+      stopBackgroundMusic();
+    };
+  }, [startBackgroundMusic, stopBackgroundMusic]);
 
   const handleStart = () => {
     if (nameValue.trim()) {
       setPlayerName(nameValue.trim());
       setShowNameInput(false);
       setShowWelcome(true);
+      playSuccess();
     }
   };
 
