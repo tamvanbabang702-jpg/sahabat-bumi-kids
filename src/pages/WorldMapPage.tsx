@@ -4,20 +4,20 @@ import { KidButton } from '@/components/ui/kid-button';
 import { AreaCard } from '@/components/AreaCard';
 import { StarCounter } from '@/components/StarCounter';
 import { ArrowLeft } from 'lucide-react';
-import { useGameStore } from '@/stores/gameStore';
+import { useGameStore, isAreaUnlocked, AreaId } from '@/stores/gameStore';
 
 import worldMapBg from '@/assets/world-map.png';
 
 export function WorldMapPage() {
   const navigate = useNavigate();
-  const { playerName } = useGameStore();
+  const { playerName, areas } = useGameStore();
 
-  const areas = [
-    { id: 'forest' as const, name: 'Hutan', description: 'Rumah Bimo si Beruang 🐻', locked: false },
-    { id: 'river' as const, name: 'Sungai', description: 'Tempat Lila si Ikan bermain 🐟', locked: true },
-    { id: 'village' as const, name: 'Desa', description: 'Desa tempat Rani tinggal 👧', locked: true },
-    { id: 'city' as const, name: 'Kota', description: 'Kota yang sibuk 🏢', locked: true },
-    { id: 'ocean' as const, name: 'Laut', description: 'Laut yang luas dan indah 🌊', locked: true },
+  const areasList: { id: AreaId; name: string; description: string }[] = [
+    { id: 'forest', name: 'Hutan', description: 'Rumah Bimo si Beruang 🐻' },
+    { id: 'river', name: 'Sungai', description: 'Tempat Lila si Ikan bermain 🐟' },
+    { id: 'village', name: 'Desa', description: 'Desa tempat Rani tinggal 👧' },
+    { id: 'city', name: 'Kota', description: 'Kota yang sibuk 🏢' },
+    { id: 'ocean', name: 'Laut', description: 'Laut yang luas dan indah 🌊' },
   ];
 
   return (
@@ -81,28 +81,31 @@ export function WorldMapPage() {
           }}
           className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
         >
-          {areas.map((area, index) => (
-            <motion.div
-              key={area.id}
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              transition={{ type: 'spring', stiffness: 200 }}
-            >
-              <AreaCard
-                areaId={area.id}
-                name={area.name}
-                description={area.description}
-                isLocked={area.locked}
-                onClick={() => {
-                  if (!area.locked) {
-                    navigate(`/area/${area.id}`);
-                  }
+          {areasList.map((area) => {
+            const unlocked = isAreaUnlocked(areas, area.id);
+            return (
+              <motion.div
+                key={area.id}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0 },
                 }}
-              />
-            </motion.div>
-          ))}
+                transition={{ type: 'spring', stiffness: 200 }}
+              >
+                <AreaCard
+                  areaId={area.id}
+                  name={area.name}
+                  description={area.description}
+                  isLocked={!unlocked}
+                  onClick={() => {
+                    if (unlocked) {
+                      navigate(`/area/${area.id}`);
+                    }
+                  }}
+                />
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         {/* Coming soon notice */}

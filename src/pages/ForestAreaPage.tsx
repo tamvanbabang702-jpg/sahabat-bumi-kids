@@ -24,6 +24,7 @@ export function ForestAreaPage() {
 
   const { 
     markAreaExplored, 
+    markAreaCompleted,
     addChoice, 
     addStars, 
     addExperience,
@@ -149,7 +150,10 @@ export function ForestAreaPage() {
       case 'complete':
         return (
           <TreePlantingGame
-            onComplete={() => navigate('/world')}
+            onComplete={() => {
+              markAreaCompleted('forest');
+              navigate('/world');
+            }}
             onBack={() => setPhase('minigame')}
           />
         );
