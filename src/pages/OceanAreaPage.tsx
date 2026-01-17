@@ -33,6 +33,7 @@ export function OceanAreaPage() {
   } = useGameStore();
 
   const oceanHealth = areas.ocean.health;
+  const name = playerName || 'Sahabat';
 
   const handleIntroComplete = () => {
     markAreaExplored('ocean');
@@ -69,6 +70,7 @@ export function OceanAreaPage() {
   if (phase === 'minigame') {
     return (
       <TrashCleaningGame
+        areaType="ocean"
         onComplete={() => {
           markAreaCompleted('ocean');
           earnBadge({
@@ -104,7 +106,7 @@ export function OceanAreaPage() {
             </motion.div>
 
             <h1 className="text-3xl font-bold text-foreground mb-4">
-              Selamat, {playerName}! 🎉
+              Selamat, {name}! 🎉
             </h1>
 
             <p className="text-xl text-muted-foreground mb-6">
@@ -181,7 +183,7 @@ export function OceanAreaPage() {
           <div className="flex flex-col items-center justify-center flex-1 p-6">
             <CharacterDialogue
               character="lila"
-              message={`${playerName}, akhirnya kita sampai di laut yang luas! Di sini ada banyak teman-temanku: penyu, lumba-lumba, dan terumbu karang yang indah! Ayo kita jaga laut bersama! 🐢`}
+              message={`${name}, akhirnya kita sampai di laut yang luas! Di sini ada banyak teman-temanku: penyu, lumba-lumba, dan terumbu karang yang indah! Ayo kita jaga laut bersama! 🐢`}
               onComplete={handleIntroComplete}
             />
           </div>
@@ -196,7 +198,7 @@ export function OceanAreaPage() {
             >
               <CharacterDialogue
                 character="lila"
-                message={`${playerName}, lihat! Ada penyu yang terjerat plastik. Apa yang harus kita lakukan?`}
+                message={`${name}, lihat! Ada penyu yang terjerat plastik. Apa yang harus kita lakukan?`}
                 onComplete={() => {}}
               />
             </motion.div>

@@ -35,6 +35,7 @@ export function RiverAreaPage() {
 
   const riverHealth = areas.river.health;
   const isHealthy = riverHealth >= 50;
+  const name = playerName || 'Sahabat';
 
   const handleIntroComplete = () => {
     markAreaExplored('river');
@@ -128,7 +129,7 @@ export function RiverAreaPage() {
           <div className="flex flex-col items-center justify-center flex-1 p-6">
             <CharacterDialogue
               character="lila"
-              message={`Hai ${playerName}! Aku Lila si Ikan! Senang bertemu denganmu! Ini sungaiku yang indah. Ayo bantu aku menjaga sungai tetap bersih supaya aku dan teman-temanku bisa berenang dengan senang! 💙`}
+              message={`Hai ${name}! Aku Lila si Ikan! Senang bertemu denganmu! Ini sungaiku yang indah. Ayo bantu aku menjaga sungai tetap bersih supaya aku dan teman-temanku bisa berenang dengan senang! 💙`}
               onComplete={handleIntroComplete}
             />
           </div>
@@ -143,7 +144,7 @@ export function RiverAreaPage() {
             >
               <CharacterDialogue
                 character="lila"
-                message={`${playerName}, gawat! Ada orang yang mau membuang sampah ke sungai. Apa yang harus kita lakukan?`}
+                message={`${name}, gawat! Ada orang yang mau membuang sampah ke sungai. Apa yang harus kita lakukan?`}
                 onComplete={() => {}}
               />
             </motion.div>

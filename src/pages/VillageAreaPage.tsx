@@ -33,6 +33,7 @@ export function VillageAreaPage() {
   } = useGameStore();
 
   const villageHealth = areas.village.health;
+  const name = playerName || 'Sahabat';
 
   const handleIntroComplete = () => {
     markAreaExplored('village');
@@ -122,7 +123,7 @@ export function VillageAreaPage() {
           <div className="flex flex-col items-center justify-center flex-1 p-6">
             <CharacterDialogue
               character="rani"
-              message={`Halo ${playerName}! Aku Rani! Senang sekali kamu datang ke desaku! Ayo bantu kami menjaga desa tetap asri dan indah dengan menanam pohon dan sayuran! 🌱`}
+              message={`Halo ${name}! Aku Rani! Senang sekali kamu datang ke desaku! Ayo bantu kami menjaga desa tetap asri dan indah dengan menanam pohon dan sayuran! 🌱`}
               onComplete={handleIntroComplete}
             />
           </div>
@@ -137,7 +138,7 @@ export function VillageAreaPage() {
             >
               <CharacterDialogue
                 character="rani"
-                message={`${playerName}, lihat! Ada lahan kosong di desa. Menurutmu mau dipakai untuk apa?`}
+                message={`${name}, lihat! Ada lahan kosong di desa. Menurutmu mau dipakai untuk apa?`}
                 onComplete={() => {}}
               />
             </motion.div>
