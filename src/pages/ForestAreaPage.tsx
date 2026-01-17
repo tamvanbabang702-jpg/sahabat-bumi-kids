@@ -31,6 +31,7 @@ export function ForestAreaPage() {
     updateAreaHealth,
     areas,
     earnBadge,
+    playerName,
   } = useGameStore();
 
   const forestHealth = areas.forest.health;
@@ -79,7 +80,7 @@ export function ForestAreaPage() {
           <div className="flex flex-col items-center justify-center flex-1 p-6">
             <CharacterDialogue
               character="bimo"
-              message="Selamat datang di hutan! Ini rumahku. Ayo kita jaga hutan bersama supaya semua hewan dan tumbuhan tetap bahagia! 🌳"
+              message={`Halo ${playerName}! Aku Bimo si Beruang! Selamat datang di hutan, ini rumahku. Ayo kita jaga hutan bersama supaya semua hewan dan tumbuhan tetap bahagia! 🌳`}
               onComplete={handleIntroComplete}
             />
           </div>
@@ -95,7 +96,7 @@ export function ForestAreaPage() {
             >
               <CharacterDialogue
                 character="bimo"
-                message="Ada orang yang mau menebang pohon. Apa yang harus kita lakukan?"
+                message={`${playerName}, ada orang yang mau menebang pohon. Menurutmu, apa yang harus kita lakukan?`}
                 onComplete={() => {}}
               />
             </motion.div>

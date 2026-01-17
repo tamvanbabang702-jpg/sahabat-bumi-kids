@@ -29,6 +29,7 @@ export function VillageAreaPage() {
     updateAreaHealth,
     areas,
     earnBadge,
+    playerName,
   } = useGameStore();
 
   const villageHealth = areas.village.health;
@@ -121,7 +122,7 @@ export function VillageAreaPage() {
           <div className="flex flex-col items-center justify-center flex-1 p-6">
             <CharacterDialogue
               character="rani"
-              message="Halo! Aku Rani, aku tinggal di desa ini! Ayo bantu kami menjaga desa tetap asri dan indah dengan menanam pohon dan sayuran! 🌱"
+              message={`Halo ${playerName}! Aku Rani! Senang sekali kamu datang ke desaku! Ayo bantu kami menjaga desa tetap asri dan indah dengan menanam pohon dan sayuran! 🌱`}
               onComplete={handleIntroComplete}
             />
           </div>
@@ -136,7 +137,7 @@ export function VillageAreaPage() {
             >
               <CharacterDialogue
                 character="rani"
-                message="Ada lahan kosong di desa. Mau dipakai untuk apa?"
+                message={`${playerName}, lihat! Ada lahan kosong di desa. Menurutmu mau dipakai untuk apa?`}
                 onComplete={() => {}}
               />
             </motion.div>

@@ -29,6 +29,7 @@ export function OceanAreaPage() {
     updateAreaHealth,
     areas,
     earnBadge,
+    playerName,
   } = useGameStore();
 
   const oceanHealth = areas.ocean.health;
@@ -86,29 +87,29 @@ export function OceanAreaPage() {
   if (phase === 'complete') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-ocean/30 to-primary/20 p-6">
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="text-center max-w-md"
-        >
           <motion.div
-            animate={{ 
-              scale: [1, 1.1, 1],
-              rotate: [0, 5, -5, 0],
-            }}
-            transition={{ repeat: Infinity, duration: 3 }}
-            className="text-9xl mb-6"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-center max-w-md"
           >
-            🌍
-          </motion.div>
+            <motion.div
+              animate={{ 
+                scale: [1, 1.1, 1],
+                rotate: [0, 5, -5, 0],
+              }}
+              transition={{ repeat: Infinity, duration: 3 }}
+              className="text-9xl mb-6"
+            >
+              🌍
+            </motion.div>
 
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            Selamat! 🎉
-          </h1>
+            <h1 className="text-3xl font-bold text-foreground mb-4">
+              Selamat, {playerName}! 🎉
+            </h1>
 
-          <p className="text-xl text-muted-foreground mb-6">
-            Kamu sudah menjadi Sahabat Bumi yang hebat! Kamu sudah menjelajahi semua tempat dan belajar cara menjaga alam!
-          </p>
+            <p className="text-xl text-muted-foreground mb-6">
+              Kamu sudah menjadi Sahabat Bumi yang hebat! Kamu sudah menjelajahi semua tempat dan belajar cara menjaga alam!
+            </p>
 
           <div className="flex justify-center gap-2 mb-8">
             {[1, 2, 3, 4, 5].map((i) => (
@@ -180,7 +181,7 @@ export function OceanAreaPage() {
           <div className="flex flex-col items-center justify-center flex-1 p-6">
             <CharacterDialogue
               character="lila"
-              message="Ini laut yang luas! Di sini ada banyak teman-temanku: penyu, lumba-lumba, dan terumbu karang yang indah! Ayo kita jaga laut bersama! 🐢"
+              message={`${playerName}, akhirnya kita sampai di laut yang luas! Di sini ada banyak teman-temanku: penyu, lumba-lumba, dan terumbu karang yang indah! Ayo kita jaga laut bersama! 🐢`}
               onComplete={handleIntroComplete}
             />
           </div>
@@ -195,7 +196,7 @@ export function OceanAreaPage() {
             >
               <CharacterDialogue
                 character="lila"
-                message="Ada penyu yang terjerat plastik. Apa yang harus kita lakukan?"
+                message={`${playerName}, lihat! Ada penyu yang terjerat plastik. Apa yang harus kita lakukan?`}
                 onComplete={() => {}}
               />
             </motion.div>

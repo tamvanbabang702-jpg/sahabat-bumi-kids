@@ -29,6 +29,7 @@ export function CityAreaPage() {
     updateAreaHealth,
     areas,
     earnBadge,
+    playerName,
   } = useGameStore();
 
   const cityHealth = areas.city.health;
@@ -121,7 +122,7 @@ export function CityAreaPage() {
           <div className="flex flex-col items-center justify-center flex-1 p-6">
             <CharacterDialogue
               character="bimo"
-              message="Wah, ini kota yang ramai! Di sini banyak kendaraan dan gedung. Ayo kita bantu membuat kota lebih hijau dan bersih! 🌳"
+              message={`Wah ${playerName}, kita sudah sampai di kota yang ramai! Di sini banyak kendaraan dan gedung. Ayo kita bantu membuat kota lebih hijau dan bersih! 🌳`}
               onComplete={handleIntroComplete}
             />
           </div>
@@ -136,7 +137,7 @@ export function CityAreaPage() {
             >
               <CharacterDialogue
                 character="bimo"
-                message="Bagaimana cara pergi ke sekolah yang baik untuk lingkungan?"
+                message={`${playerName}, menurutmu bagaimana cara pergi ke sekolah yang baik untuk lingkungan?`}
                 onComplete={() => {}}
               />
             </motion.div>
