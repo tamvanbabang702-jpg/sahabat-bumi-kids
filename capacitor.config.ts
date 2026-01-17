@@ -9,14 +9,23 @@ const config: CapacitorConfig = {
     cleartext: true
   },
   android: {
-    allowMixedContent: true
+    allowMixedContent: true,
+    backgroundColor: '#4ADE80'
+  },
+  ios: {
+    backgroundColor: '#4ADE80'
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 2000,
+      launchShowDuration: 2500,
+      launchAutoHide: true,
       backgroundColor: '#4ADE80',
       showSpinner: false,
-      androidScaleType: 'CENTER_CROP'
+      androidScaleType: 'CENTER_CROP',
+      splashFullScreen: true,
+      splashImmersive: true,
+      layoutName: 'launch_screen',
+      useDialog: false
     }
   }
 };
