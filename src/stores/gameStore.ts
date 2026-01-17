@@ -5,6 +5,7 @@ export type AreaId = 'forest' | 'river' | 'village' | 'city' | 'ocean';
 
 export interface AreaProgress {
   explored: boolean;
+  completed: boolean;
   health: number; // 0-100
   choicesMade: string[];
   treesPlanted: number;
@@ -36,6 +37,7 @@ export interface GameState {
   areas: Record<AreaId, AreaProgress>;
   updateAreaHealth: (area: AreaId, health: number) => void;
   markAreaExplored: (area: AreaId) => void;
+  markAreaCompleted: (area: AreaId) => void;
   addChoice: (area: AreaId, choice: string) => void;
   plantTree: (area: AreaId) => void;
   cleanTrash: (area: AreaId) => void;
@@ -57,12 +59,22 @@ export interface GameState {
 }
 
 const initialAreas: Record<AreaId, AreaProgress> = {
-  forest: { explored: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
-  river: { explored: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
-  village: { explored: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
-  city: { explored: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
-  ocean: { explored: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
+  forest: { explored: false, completed: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
+  river: { explored: false, completed: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
+  village: { explored: false, completed: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
+  city: { explored: false, completed: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
+  ocean: { explored: false, completed: false, health: 50, choicesMade: [], treesPlanted: 0, trashCleaned: 0 },
 };
+
+// Area unlock order
+export const areaOrder: AreaId[] = ['forest', 'river', 'village', 'city', 'ocean'];
+
+export function isAreaUnlocked(areas: Record<AreaId, AreaProgress>, areaId: AreaId): boolean {
+  const index = areaOrder.indexOf(areaId);
+  if (index === 0) return true; // Forest is always unlocked
+  const previousArea = areaOrder[index - 1];
+  return areas[previousArea].completed;
+}
 
 const PARENT_CODE = '1234';
 
@@ -103,6 +115,12 @@ export const useGameStore = create<GameState>()(
         areas: {
           ...state.areas,
           [area]: { ...state.areas[area], explored: true }
+        }
+      })),
+      markAreaCompleted: (area) => set((state) => ({
+        areas: {
+          ...state.areas,
+          [area]: { ...state.areas[area], completed: true }
         }
       })),
       addChoice: (area, choice) => set((state) => ({
