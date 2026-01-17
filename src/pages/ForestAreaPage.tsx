@@ -36,6 +36,7 @@ export function ForestAreaPage() {
 
   const forestHealth = areas.forest.health;
   const isHealthy = forestHealth >= 50;
+  const name = playerName || 'Sahabat';
 
   const handleIntroComplete = () => {
     markAreaExplored('forest');
@@ -80,7 +81,7 @@ export function ForestAreaPage() {
           <div className="flex flex-col items-center justify-center flex-1 p-6">
             <CharacterDialogue
               character="bimo"
-              message={`Halo ${playerName}! Aku Bimo si Beruang! Selamat datang di hutan, ini rumahku. Ayo kita jaga hutan bersama supaya semua hewan dan tumbuhan tetap bahagia! 🌳`}
+              message={`Halo ${name}! Aku Bimo si Beruang! Selamat datang di hutan, ini rumahku. Ayo kita jaga hutan bersama supaya semua hewan dan tumbuhan tetap bahagia! 🌳`}
               onComplete={handleIntroComplete}
             />
           </div>
@@ -96,7 +97,7 @@ export function ForestAreaPage() {
             >
               <CharacterDialogue
                 character="bimo"
-                message={`${playerName}, ada orang yang mau menebang pohon. Menurutmu, apa yang harus kita lakukan?`}
+                message={`${name}, ada orang yang mau menebang pohon. Menurutmu, apa yang harus kita lakukan?`}
                 onComplete={() => {}}
               />
             </motion.div>
