@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import { KidButton } from './ui/kid-button';
 import { ArrowLeft } from 'lucide-react';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 import riverHealthy from '@/assets/scenes/river-healthy.png';
 
@@ -41,6 +42,7 @@ export function TrashCleaningGame({ onComplete, onBack, areaType = 'river' }: Tr
   });
   const [showComplete, setShowComplete] = useState(false);
   const { cleanTrash, addStars, addExperience, playerName } = useGameStore();
+  const { playCollect, playGameComplete, playStarReward } = useSoundEffects();
 
   const collectedCount = trash.filter((t) => t.collected).length;
   const targetCount = trash.length;
@@ -53,7 +55,10 @@ export function TrashCleaningGame({ onComplete, onBack, areaType = 'river' }: Tr
       const newCollected = newTrash.filter((t) => t.collected).length;
       
       if (newCollected >= targetCount) {
-        setTimeout(() => setShowComplete(true), 500);
+        setTimeout(() => {
+          setShowComplete(true);
+          playGameComplete();
+        }, 500);
       }
       
       return newTrash;
@@ -62,11 +67,13 @@ export function TrashCleaningGame({ onComplete, onBack, areaType = 'river' }: Tr
     cleanTrash(areaType);
     addStars(1);
     addExperience(10);
-  }, [cleanTrash, addStars, addExperience, targetCount, areaType]);
+    playCollect(); // Play collect sound
+  }, [cleanTrash, addStars, addExperience, targetCount, areaType, playCollect, playGameComplete]);
 
   const handleComplete = () => {
     addStars(5);
     addExperience(50);
+    playStarReward(); // Play star reward sound
     onComplete();
   };
 

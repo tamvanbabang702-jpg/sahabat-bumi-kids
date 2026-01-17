@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import { KidButton } from './ui/kid-button';
 import { ArrowLeft } from 'lucide-react';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 interface RecyclingGameProps {
   onComplete: () => void;
@@ -56,6 +57,7 @@ export function RecyclingGame({ onComplete, onBack }: RecyclingGameProps) {
   const [wrongAttempt, setWrongAttempt] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
   const { addStars, addExperience, cleanTrash, playerName } = useGameStore();
+  const { playCollect, playError, playGameComplete, playStarReward } = useSoundEffects();
 
   const sortedCount = items.filter((i) => i.sorted).length;
   const targetCount = items.length;
@@ -72,20 +74,26 @@ export function RecyclingGame({ onComplete, onBack }: RecyclingGameProps) {
       addExperience(15);
       cleanTrash('city');
       setSelectedItem(null);
+      playCollect(); // Play correct sound
 
       if (sortedCount + 1 >= targetCount) {
-        setTimeout(() => setShowComplete(true), 500);
+        setTimeout(() => {
+          setShowComplete(true);
+          playGameComplete();
+        }, 500);
       }
     } else {
       // Wrong - show feedback
       setWrongAttempt(true);
+      playError(); // Play error sound
       setTimeout(() => setWrongAttempt(false), 800);
     }
-  }, [selectedItem, sortedCount, targetCount, addStars, addExperience, cleanTrash]);
+  }, [selectedItem, sortedCount, targetCount, addStars, addExperience, cleanTrash, playCollect, playError, playGameComplete]);
 
   const handleComplete = () => {
     addStars(5);
     addExperience(50);
+    playStarReward(); // Play star reward sound
     onComplete();
   };
 

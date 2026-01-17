@@ -2,6 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 
 const kidButtonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap font-bold transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 touch-target select-none active:scale-95",
@@ -44,15 +45,26 @@ export interface KidButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof kidButtonVariants> {
   asChild?: boolean;
+  playSound?: boolean;
 }
 
 const KidButton = React.forwardRef<HTMLButtonElement, KidButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, playSound = true, onClick, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
+    const { playClick } = useSoundEffects();
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (playSound) {
+        playClick();
+      }
+      onClick?.(e);
+    };
+
     return (
       <Comp
         className={cn(kidButtonVariants({ variant, size, className }))}
         ref={ref}
+        onClick={handleClick}
         {...props}
       />
     );
